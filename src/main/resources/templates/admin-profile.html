@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sc="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Students</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+<span sc:authorize="hasRole('USER')" class="nav">
+    &nbsp;&nbsp;&nbsp;Role:&nbsp;&nbsp;&nbsp;</span>
+<span sc:authorize="hasRole('ADMIN')" class="nav">
+    &nbsp;&nbsp;&nbsp;Administrator&nbsp;&nbsp;&nbsp;</span>
+
+<form class="link" th:action="@{/logout}" method="post" style="display: inline;">
+    <button class="linkbutton" type="submit">&nbsp;&nbsp;Logout&nbsp;&nbsp;</button>
+</form>
+
+<h1>Students</h1>
+<h2>View students</h2>
+
+<table style="width:100%">
+    <tr>
+        <th bgcolor="#00FF00">ID</th>
+        <th bgcolor="#00FF00">FIRST NAME</th>
+        <th bgcolor="#00FF00">LAST NAME</th>
+        <th bgcolor="#00FF00">AGE</th>
+    </tr>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.id}"></td>
+        <td th:text="${student.firstName}"></td>
+        <td th:text="${student.lastName}"></td>
+        <td th:text="${student.age}"></td>
+
+        <td><a class="btn btn-danger" th:href="@{delete-student/{id}(id=${student.id})}"
+               title="Delete student">Delete</a></td>
+    </tr>
+</table>
+
+<h2>Add a student</h2>
+<form action="/admin-profile" method="post">
+    ID: <input type="number" step="any" name="id"><br />
+    First name: <input type="text" name="firstName"><br />
+    Last name: <input type="text" name="lastName"><br />
+    Age: <input type="number" step="any" name="age"><br />
+    <button type="submit">Add student</button>
+</form>
+</form>
+</body>
+</html>
